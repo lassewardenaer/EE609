@@ -178,21 +178,21 @@ int main (void)
     int equal = 0;
     int iterations = 0;
     while(fgets(key, 16, fd)!= NULL) /* read a line from a file */ {
-
+        
         int tooShort = 0;
         for (unsigned int i = 0; i < 16; i++)
         {   
+            printf("%x", key[i]);
             if (key[i] == 0x0a || tooShort)
             {   
                 tooShort = 1;
                 key[i] = 0x20;
             }
         }
-
-        iterations = iterations + 1;
-
+        key[16] = '\0';
+        printf("\n");
         /* Decrypt the ciphertext */
-        decryptedtext_len = decrypt(ciphertext, 32, key, iv, decryptedtext);
+        decryptedtext_len = decrypt(ciphertext, ciphertext_len, key, iv, decryptedtext);
         
         int counter = 0;
         for (int i = 0; i < 21; i++)
@@ -200,13 +200,13 @@ int main (void)
 
             if (decryptedtext[i] == plaintext[i])
             {
-                printf("%x %x ||", decryptedtext[i], decryptedtext[i]);
+                //printf("%x %x ||", decryptedtext[i], decryptedtext[i]);
                 counter = counter + 1;
             }
             else {
             if (i > 0) 
             {
-                printf("\n");
+                //printf("\n");
             }
                 break;
             }
